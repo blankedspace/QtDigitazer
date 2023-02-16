@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Assets/Buttons/down.png</file>
+        <file>Assets/Buttons/left.png</file>
+        <file>Assets/Buttons/open.png</file>
+        <file>Assets/Buttons/right.png</file>
+        <file>Assets/Buttons/up.png</file>
+        <file>Assets/Buttons/zoomin.png</file>
+        <file>Assets/Buttons/zoomout.png</file>
+    </qresource>
+</RCC>
