@@ -48,11 +48,11 @@ public:
     MyCanvas *canvas;
     QTableWidget *tableWidget;
     QPushButton *pushButton;
+    QToolBar *mainToolBar;
+    QStatusBar *statusBar;
     QMenuBar *menuBar;
     QMenu *menu;
     QMenu *menu_2;
-    QToolBar *mainToolBar;
-    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -65,37 +65,43 @@ public:
         openimage = new QAction(MainWindow);
         openimage->setObjectName(QString::fromUtf8("openimage"));
         QIcon icon;
-        icon.addFile(QString::fromUtf8("open.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/Assets/Buttons/open.png"), QSize(), QIcon::Normal, QIcon::Off);
         openimage->setIcon(icon);
         zoomin = new QAction(MainWindow);
         zoomin->setObjectName(QString::fromUtf8("zoomin"));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8("zoomin.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/Assets/Buttons/zoomin.png"), QSize(), QIcon::Normal, QIcon::Off);
         zoomin->setIcon(icon1);
         zoomout = new QAction(MainWindow);
         zoomout->setObjectName(QString::fromUtf8("zoomout"));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8("zoomout.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/Assets/Buttons/zoomout.png"), QSize(), QIcon::Normal, QIcon::Off);
         zoomout->setIcon(icon2);
         left = new QAction(MainWindow);
         left->setObjectName(QString::fromUtf8("left"));
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8("left.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8(":/Assets/Buttons/left.png"), QSize(), QIcon::Normal, QIcon::Off);
         left->setIcon(icon3);
         right = new QAction(MainWindow);
         right->setObjectName(QString::fromUtf8("right"));
         QIcon icon4;
-        icon4.addFile(QString::fromUtf8("right.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QString::fromUtf8(":/Assets/Buttons/right.png"), QSize(), QIcon::Normal, QIcon::Off);
         right->setIcon(icon4);
         up = new QAction(MainWindow);
         up->setObjectName(QString::fromUtf8("up"));
         QIcon icon5;
-        icon5.addFile(QString::fromUtf8("up.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon5.addFile(QString::fromUtf8(":/Assets/Buttons/up.png"), QSize(), QIcon::Normal, QIcon::Off);
         up->setIcon(icon5);
         down = new QAction(MainWindow);
         down->setObjectName(QString::fromUtf8("down"));
+        down->setEnabled(true);
         QIcon icon6;
-        icon6.addFile(QString::fromUtf8("down.png"), QSize(), QIcon::Normal, QIcon::Off);
+        QString iconThemeName = QString::fromUtf8("What");
+        if (QIcon::hasThemeIcon(iconThemeName)) {
+            icon6 = QIcon::fromTheme(iconThemeName);
+        } else {
+            icon6.addFile(QString::fromUtf8(":/Assets/Buttons/down.png"), QSize(), QIcon::Normal, QIcon::Off);
+        }
         down->setIcon(icon6);
         actionHomeView = new QAction(MainWindow);
         actionHomeView->setObjectName(QString::fromUtf8("actionHomeView"));
@@ -149,31 +155,21 @@ public:
         horizontalLayout->addWidget(pushButton);
 
         MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1156, 26));
-        menu = new QMenu(menuBar);
-        menu->setObjectName(QString::fromUtf8("menu"));
-        menu_2 = new QMenu(menuBar);
-        menu_2->setObjectName(QString::fromUtf8("menu_2"));
-        MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
         MainWindow->setStatusBar(statusBar);
+        menuBar = new QMenuBar(MainWindow);
+        menuBar->setObjectName(QString::fromUtf8("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 1156, 22));
+        menu = new QMenu(menuBar);
+        menu->setObjectName(QString::fromUtf8("menu"));
+        menu_2 = new QMenu(menuBar);
+        menu_2->setObjectName(QString::fromUtf8("menu_2"));
+        MainWindow->setMenuBar(menuBar);
 
-        menuBar->addAction(menu->menuAction());
-        menuBar->addAction(menu_2->menuAction());
-        menu->addAction(down);
-        menu->addAction(up);
-        menu->addAction(right);
-        menu->addAction(left);
-        menu->addAction(zoomout);
-        menu->addAction(zoomin);
-        menu->addAction(openimage);
-        menu->addAction(actionclose);
         mainToolBar->addAction(openimage);
         mainToolBar->addAction(zoomin);
         mainToolBar->addAction(zoomout);
@@ -186,6 +182,16 @@ public:
         mainToolBar->addAction(actionsave);
         mainToolBar->addAction(actionopenGrid);
         mainToolBar->addAction(actionclose);
+        menuBar->addAction(menu->menuAction());
+        menuBar->addAction(menu_2->menuAction());
+        menu->addAction(down);
+        menu->addAction(up);
+        menu->addAction(right);
+        menu->addAction(left);
+        menu->addAction(zoomout);
+        menu->addAction(zoomin);
+        menu->addAction(openimage);
+        menu->addAction(actionclose);
 
         retranslateUi(MainWindow);
 
