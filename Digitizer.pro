@@ -12,16 +12,24 @@ TARGET = Digitizer
 TEMPLATE = app
 
 INCLUDEPATH += $$PWD/src
+INCLUDEPATH += $$PWD/src/DrawableItems
 SOURCES += src/main.cpp\
-    src/grid.cpp \
-    src/mainwindow.cpp \
-    src/myscaler.cpp \
-    src/mypolyline.cpp
+    src/DrawableItems/dgzgrid.cpp \
+    src/DrawableItems/dgzimage.cpp \
+    src/datamanager.cpp \
+    src/dgzpolyline.cpp \
+    src/dgzscaler.cpp \
+    src/drawablewindow.cpp \
+    src/startwindow.cpp
 
-HEADERS  += src/mainwindow.h \
-    src/grid.h \
-    src/myscaler.h \
-    src/mypolyline.h
+HEADERS  += \
+    src/DrawableItems/dgzgrid.h \
+    src/DrawableItems/dgzimage.h \
+    src/datamanager.h \
+    src/dgzpolyline.h \
+    src/dgzscaler.h \
+    src/drawablewindow.h \
+    src/startwindow.h \
 
 FORMS    += mainwindow.ui\
 

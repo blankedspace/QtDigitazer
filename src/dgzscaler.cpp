@@ -1,13 +1,13 @@
-#include "myscaler.h"
+#include "dgzscaler.h"
 
-MyScaler::MyScaler()
+DGZScaler::DGZScaler()
 {
 
     setFileSRect(QRectF(0,0,100,100));
     setScreenRect(QRectF(0,0,100,100));
 }
 
-QPointF MyScaler::screen2File(QPointF pt) //перевод из экранных координат (моего компа) в файловые 
+QPointF DGZScaler::screen2File(QPointF pt)
 {
 
     double xf1 = _fsRect.left(); 
@@ -27,7 +27,7 @@ QPointF MyScaler::screen2File(QPointF pt) //перевод из экранных
     return fpt;
 }
 
-QPointF MyScaler::file2Screen(QPointF pt)
+QPointF DGZScaler::file2Screen(QPointF pt)
 {
 
     double xf1 = _fsRect.left();
@@ -47,7 +47,7 @@ QPointF MyScaler::file2Screen(QPointF pt)
     return spt;
 }
 
-QPointF MyScaler::real2File(QPointF pt)
+QPointF DGZScaler::real2File(QPointF pt)
 {
 
     double xf1 = _fPoints.first.x();
@@ -67,7 +67,7 @@ QPointF MyScaler::real2File(QPointF pt)
     return fpt;
 }
 
-QPointF MyScaler::file2Real(QPointF pt)
+QPointF DGZScaler::file2Real(QPointF pt)
 {
 
     double xf1 = _fPoints.first.x();

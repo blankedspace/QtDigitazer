@@ -1,8 +1,9 @@
 *.user
 *.autosave
 Makefile
-Makefile.Debug
-Makefile.Release
 .qmake.stash
+.qtc_clangd
 release
 debug
+*.Debug
+*.Release

@@ -1,28 +1,25 @@
-#ifndef MYSCALER_H
-#define MYSCALER_H
+#ifndef DGZSCALER_H
+#define DGZSCALER_H
 
 #include <QPointF>
 #include <QRectF>
 #include <QPair>
 
-class MyScaler
+class DGZScaler
 {
 public:
-    MyScaler();
+    DGZScaler();
 
 
-//get дает то, что написано слево от названия функции 
 
-QRectF fileSRectF(){return _fsRect;} //возвращает координаты
+QRectF fileSRectF(){return _fsRect;}
 QRectF screenRectF(){return _sRect;}
 QRect fileSRect(){return fileSRectF().toRect();}
 QRect screenRect(){return screenRectF().toRect();}
-QPointF getFirstFPoint(){return _fPoints.first;} //F - файл
+QPointF getFirstFPoint(){return _fPoints.first;}
 QPointF getSecondFPoint(){return _fPoints.second;}
-QPointF getFirstRPoint(){return _rPoints.first;} //R - реал
+QPointF getFirstRPoint(){return _rPoints.first;}
 QPointF getSecondRPoint(){return _rPoints.second;}
-
-//set - установить значения
 
 void setFileSRect(QRectF r){_fsRect = r;}
 void setScreenRect(QRectF r){_sRect = r;}
@@ -40,16 +37,12 @@ QPointF real2File(QPointF pt);
 QPointF file2Real(QPointF pt);
 
 private:
-QPair<QPointF, QPointF> _rPoints; //шаблон классов QPair
+QPair<QPointF, QPointF> _rPoints;
 QPair<QPointF, QPointF> _fPoints;
 QRectF _fsRect;
 QRectF _sRect;
 
-//QPointF _rPoint1;
-//QPointF _rPoint2;
-//QPointF _fPoint1;
-//QPointF _fPoint2;
 
 };
 
-#endif // MYSCALER_H
+#endif // DGZSCALER_H

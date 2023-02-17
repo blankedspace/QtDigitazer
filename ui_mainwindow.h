@@ -23,7 +23,7 @@
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
-#include "mainwindow.h"
+#include "drawablewindow.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -44,8 +44,8 @@ public:
     QAction *actionopenGrid;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
+    DrawableWindow *canvas;
     QSplitter *splitter;
-    MyCanvas *canvas;
     QTableWidget *tableWidget;
     QPushButton *pushButton;
     QToolBar *mainToolBar;
@@ -118,19 +118,21 @@ public:
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        splitter = new QSplitter(centralWidget);
-        splitter->setObjectName(QString::fromUtf8("splitter"));
-        splitter->setOrientation(Qt::Horizontal);
-        canvas = new MyCanvas(splitter);
+        canvas = new DrawableWindow(centralWidget);
         canvas->setObjectName(QString::fromUtf8("canvas"));
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(200);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(canvas->sizePolicy().hasHeightForWidth());
         canvas->setSizePolicy(sizePolicy);
-        canvas->setMinimumSize(QSize(300, 0));
-        canvas->setMouseTracking(true);
-        splitter->addWidget(canvas);
+        canvas->setMinimumSize(QSize(60, 0));
+
+        horizontalLayout->addWidget(canvas);
+
+        splitter = new QSplitter(centralWidget);
+        splitter->setObjectName(QString::fromUtf8("splitter"));
+        splitter->setOrientation(Qt::Horizontal);
+        splitter->setChildrenCollapsible(false);
         tableWidget = new QTableWidget(splitter);
         if (tableWidget->columnCount() < 2)
             tableWidget->setColumnCount(2);
@@ -163,7 +165,7 @@ public:
         MainWindow->setStatusBar(statusBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1156, 22));
+        menuBar->setGeometry(QRect(0, 0, 1156, 26));
         menu = new QMenu(menuBar);
         menu->setObjectName(QString::fromUtf8("menu"));
         menu_2 = new QMenu(menuBar);
