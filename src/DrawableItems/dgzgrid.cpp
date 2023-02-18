@@ -15,6 +15,7 @@ void DGZGrid::DrawGird(QPainter& p,DGZScaler& sc)
 
     pen.setWidth(1000*( xSize/(sc.fileSRectF().width())));
     p.setPen(pen);
+    QRectF file =QRectF(0,0,xSize*10,ySize*10);
 
     if( values.size() != 0)
     {

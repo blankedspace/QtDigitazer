@@ -1,6 +1,12 @@
-#include "dataManager.h"
+#include "datamanager.h"
 #include "drawablewindow.h"
 #include <QPainter>
+
+DrawableWindow::DrawableWindow(QWidget *parent)
+{
+    DGZScaler::instance = &sc;
+
+}
 
 void DrawableWindow::paintEvent(QPaintEvent *event)
 {
@@ -71,10 +77,33 @@ void DrawableWindow::mouseMoveEvent(QMouseEvent *event)
     QPointF realPoint = sc.file2Real(filePoint);
     mes+=tr("rx=%1; ry=%2").arg(realPoint.x()).arg(realPoint.y());
     emit signalShowStatusMessage(mes);
+    QPointF curPos = event->position();
+    if(mouseMidButton)
+    {
+        float x = curPos.x() - prevPos.x();
+        float y = curPos.y() - prevPos.y();
+
+        QRectF r=DGZScaler::instance->fileSRectF();
+
+
+        r.setLeft(r.left() - x);
+        r.setRight(r.right() - x);
+        r.setTop(r.top() - y);
+        r.setBottom(r.bottom() - y);
+        DGZScaler::instance->setFileSRect(r);
+
+        repaint();
+    }
+    prevPos = event->position();
 }
 
 void DrawableWindow::mousePressEvent(QMouseEvent *event)
 {
+    if(event->button() == Qt::MiddleButton)
+    {
+        mouseMidButton =true;
+        prevPos = event->position();
+    }
     if(mode == DrawingMode::Set1Point){
         QPoint screenPoint = event->pos();
         QPointF filePoint = sc.screen2File(screenPoint);
@@ -105,6 +134,30 @@ void DrawableWindow::mousePressEvent(QMouseEvent *event)
         repaint();
     }
 }
+
+void DrawableWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::MiddleButton)
+    {
+        mouseMidButton =false;
+    }
+}
+
+void DrawableWindow::wheelEvent(QWheelEvent *event)
+{
+    auto delta = event->angleDelta();
+    qDebug()<< delta.ry();
+    if(delta.ry() > 0)
+    {
+        m_startWindow->on_zoomin_triggered();
+    }
+    else
+    {
+         m_startWindow->on_zoomout_triggered();
+    }
+}
+
+
 
 void DrawableWindow::resizeEvent(QResizeEvent *event)
 {

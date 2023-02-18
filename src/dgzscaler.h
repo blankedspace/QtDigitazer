@@ -5,13 +5,16 @@
 #include <QRectF>
 #include <QPair>
 
+
+//TODO: Add view rect, and every file should use its own file rect
 class DGZScaler
 {
 public:
     DGZScaler();
+    //singltone pattern
+    static DGZScaler* instance;
 
-
-
+//File rect is more like VIEW rect, wrong naming..
 QRectF fileSRectF(){return _fsRect;}
 QRectF screenRectF(){return _sRect;}
 QRect fileSRect(){return fileSRectF().toRect();}
@@ -32,6 +35,7 @@ QPointF screen2File(QPointF pt);
 QPointF screen2File(QPoint pt){return screen2File(QPointF(pt));}
 
 QPointF file2Screen(QPointF pt);
+QPointF file2Screen(QRectF file,QPointF pt);
 
 QPointF real2File(QPointF pt);
 QPointF file2Real(QPointF pt);

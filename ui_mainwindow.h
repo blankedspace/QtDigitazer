@@ -60,6 +60,8 @@ public:
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(1156, 564);
         MainWindow->setMouseTracking(true);
+        MainWindow->setAutoFillBackground(false);
+        MainWindow->setStyleSheet(QString::fromUtf8(""));
         actionclose = new QAction(MainWindow);
         actionclose->setObjectName(QString::fromUtf8("actionclose"));
         openimage = new QAction(MainWindow);
@@ -126,6 +128,7 @@ public:
         sizePolicy.setHeightForWidth(canvas->sizePolicy().hasHeightForWidth());
         canvas->setSizePolicy(sizePolicy);
         canvas->setMinimumSize(QSize(60, 0));
+        canvas->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
         horizontalLayout->addWidget(canvas);
 
@@ -159,13 +162,15 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+        mainToolBar->setStyleSheet(QString::fromUtf8(""));
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
         MainWindow->setStatusBar(statusBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1156, 26));
+        menuBar->setGeometry(QRect(0, 0, 1156, 22));
+        menuBar->setStyleSheet(QString::fromUtf8(""));
         menu = new QMenu(menuBar);
         menu->setObjectName(QString::fromUtf8("menu"));
         menu_2 = new QMenu(menuBar);

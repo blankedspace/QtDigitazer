@@ -16,6 +16,9 @@ public:
     int xSize = 0;
     int ySize = 0;
     float maxValue = 0;
+
+    QRectF rect;
+
 };
 
 #endif // DGZGRID_H

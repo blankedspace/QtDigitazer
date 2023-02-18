@@ -37,7 +37,9 @@ public:
 
 public slots:
 
-private slots:
+public slots:
+
+
     void on_actionclose_triggered();
 
     void on_openimage_triggered();

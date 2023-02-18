@@ -10,12 +10,14 @@ StartWindow::StartWindow(QWidget *parent) :
     UI(new Ui::MainWindow)
 {
     UI->setupUi(this);
+
+
     this->setMouseTracking(true);
-    UI->canvas->sc.setScreenRect(QRectF(10,20,800,800));
-    UI->canvas->sc.setFileSRect(QRectF(50,60,900,900));
+    DGZScaler::instance->setScreenRect(QRectF(10,20,800,800));
+    DGZScaler::instance->setFileSRect(QRectF(50,60,900,900));
     UI->tableWidget->hide();
     UI->pushButton->hide();
-
+    UI->canvas->m_startWindow = this;
     //UI->mode = DrawableWin\dow::DrawingMode::ImageNotLoaded;
 
     connect(UI->canvas,&DrawableWindow::signalShowTable,this,&StartWindow::showTable);
@@ -26,6 +28,8 @@ StartWindow::StartWindow(QWidget *parent) :
 StartWindow::~StartWindow()
 {
 }
+
+
 
 void StartWindow::on_actionclose_triggered()
 {
@@ -44,73 +48,76 @@ void StartWindow::on_openimage_triggered()
         QMessageBox::warning(this, tr("Сообщение"), tr("Не могу загрузить изображение %l").arg(fileName));
         return;
     }*/
-
+    UI->actionopenGrid->setDisabled(true);
     UI->canvas->mode = DrawableWindow::DrawingMode::ReadyForLinking;
 
     on_actionHomeView_triggered();
 
-    //UI->canvas->sc.setFileSRect(QRectF(UI->canvas->im.rect()));
-    //UI->canvas->sc.setScreenRect(QRectF(0,0,width(),height()));
+    DGZScaler::instance->setFileSRect(QRectF(DataManager::GetImage()->rect()));
+    DGZScaler::instance->setScreenRect(QRectF(0,0,width(),height()));
     repaint();
 }
 
 void StartWindow::on_zoomin_triggered()
 {
-    QRectF r=UI->canvas->sc.fileSRectF();
+    QRectF r=DGZScaler::instance->fileSRectF();
     double xc = (r.left()+r.right())/2;
     double yc = (r.top()+r.bottom())/2;
 
     double w = r.width()/UI->canvas->ScaleFactor;
     double h = r.height()/UI->canvas->ScaleFactor;
 
-    UI->canvas->sc.setFileSRect(QRectF(xc-w/2,yc-h/2,w,h));
+    DGZScaler::instance->setFileSRect(QRectF(xc-w/2,yc-h/2,w,h));
 
     repaint();
 }
 
 void StartWindow::on_zoomout_triggered()
 {
-    QRectF r=UI->canvas->sc.fileSRectF();
+    QRectF r=DGZScaler::instance->fileSRectF();
     double xc = (r.left()+r.right())/2;
     double yc = (r.top()+r.bottom())/2;
 
     double w = r.width()*UI->canvas->ScaleFactor;
     double h = r.height()*UI->canvas->ScaleFactor;
 
-    UI->canvas->sc.setFileSRect(QRectF(xc-w/2,yc-h/2,w,h));
+    DGZScaler::instance->setFileSRect(QRectF(xc-w/2,yc-h/2,w,h));
 
     repaint();
 }
 
 void StartWindow::on_left_triggered()
 {
-    QRectF r=UI->canvas->sc.fileSRectF();
-    double shift = UI->canvas->ShiftFactor *UI->canvas->sc.screenRect().width();
+    QRectF r=DGZScaler::instance->fileSRectF();
+    double shift = UI->canvas->ShiftFactor *DGZScaler::instance->screenRect().width();
     r.setLeft(r.left() + shift);
     r.setRight(r.right() + shift);
-    UI->canvas->sc.setFileSRect(r);
+    DGZScaler::instance->setFileSRect(r);
     repaint();
 }
 
 void StartWindow::on_actionHomeView_triggered()
 {
-   /* UI->canvas->sc.setFileSRect(QRectF(UI->canvas->im.rect()));
-    if (UI->canvas->grid.xSize !=0){
-        UI->canvas->sc.setFileSRect(QRectF(0,0,UI->canvas->grid.xSize*10, UI->canvas->grid.ySize*10));
-    }
-    */
+    DGZGrid* grid = DataManager::GetGrid();
+    if(grid)
+       DGZScaler::instance->setFileSRect(QRectF(0,0,grid->xSize*10,grid->ySize*10));
 
-    UI->canvas->sc.setScreenRect(QRectF(0,0, width(), height()));
+    QImage* img = DataManager::GetImage();
+    if(img)
+        DGZScaler::instance->setFileSRect(QRectF(DataManager::GetImage()->rect()));
+
+
+    DGZScaler::instance->setScreenRect(QRectF(0,0, width(), height()));
     repaint();
 }
 
 void StartWindow::on_right_triggered()
 {
-    QRectF r=UI->canvas->sc.fileSRectF();
-    double shift = UI->canvas->ShiftFactor*UI->canvas->sc.screenRect().width();
+    QRectF r=DGZScaler::instance->fileSRectF();
+    double shift = UI->canvas->ShiftFactor*DGZScaler::instance->screenRect().width();
     r.setLeft(r.left() - shift);
     r.setRight(r.right() - shift);
-    UI->canvas->sc.setFileSRect(r);
+    DGZScaler::instance->setFileSRect(r);
     repaint();
 }
 
@@ -124,21 +131,21 @@ void StartWindow::on_actionlink_triggered()
 
 void StartWindow::on_up_triggered()
 {
-    QRectF r=UI->canvas->sc.fileSRectF();
-    double shift = UI->canvas->ShiftFactor*UI->canvas->sc.screenRect().height();
+    QRectF r= DGZScaler::instance->fileSRectF();
+    double shift = UI->canvas->ShiftFactor*DGZScaler::instance->screenRect().height();
     r.setTop(r.top() + shift);
     r.setBottom(r.bottom() + shift);
-    UI->canvas->sc.setFileSRect(r);
+    DGZScaler::instance->setFileSRect(r);
     repaint();
 }
 
 void StartWindow::on_down_triggered()
 {
-    QRectF r=UI->canvas->sc.fileSRectF();
-    double shift = UI->canvas->ShiftFactor*UI->canvas->sc.screenRect().height();
+    QRectF r=DGZScaler::instance->fileSRectF();
+    double shift = UI->canvas->ShiftFactor*DGZScaler::instance->screenRect().height();
     r.setTop(r.top() - shift);
     r.setBottom(r.bottom() - shift);
-    UI->canvas->sc.setFileSRect(r);
+    DGZScaler::instance->setFileSRect(r);
     repaint();
 }
 
@@ -164,8 +171,8 @@ void StartWindow::on_pushButton_clicked()
     double yr1 = UI->tableWidget->item(0,1)->text().toDouble(&ok);
     double yr2 = UI->tableWidget->item(1,1)->text().toDouble(&ok);
 
-    UI->canvas->sc.setFirstRPoint(QPointF(xr1,yr1));
-    UI->canvas->sc.setSecondRPoint(QPointF(xr2,yr2));
+    DGZScaler::instance->setFirstRPoint(QPointF(xr1,yr1));
+    DGZScaler::instance->setSecondRPoint(QPointF(xr2,yr2));
 
     UI->canvas->mode = DrawableWindow::DrawingMode::DigitizingPolyLine; //включили прорисовку линии
     //отключили справа окошко
@@ -183,7 +190,7 @@ void StartWindow::on_actionsave_triggered()
      QTextStream stream(&file); //значок нужен, чтобы программа передавала не в копию, а в сам файл
      for (int i = 0; i<size; i++){
         QPointF tochka = UI->canvas->polyline()->getPoint(i);
-        tochka = UI->canvas->sc.file2Real(tochka);
+        tochka = DGZScaler::instance->file2Real(tochka);
         stream << tochka.x() << ";" << tochka.y() << "\n";
      }
      file.close();
@@ -191,16 +198,17 @@ void StartWindow::on_actionsave_triggered()
 
 void StartWindow::on_actionopenGrid_triggered() //открываем грид
 {
+
     QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть грид"), "M:\\trueDigitazer\\test"); //заходим в папку
     if(fileName.isEmpty())return;
     DataManager::LoadGrid(fileName);
 
    //записываем данные в поток и выгружаем в виде "пикселей"
 
-   UI->canvas->sc.setScreenRect(QRectF(0,0,width(),height()));
-   UI->canvas->sc.setFileSRect(UI->canvas->sc.screenRect());
+   DGZScaler::instance->setScreenRect(QRectF(0,0,width(),height()));
+   DGZScaler::instance->setFileSRect(DGZScaler::instance->screenRect());
    on_actionHomeView_triggered();
-
+   UI->openimage->setDisabled(true);
     repaint(); //перерисовка изображения
 }
 

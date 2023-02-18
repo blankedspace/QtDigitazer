@@ -15,7 +15,6 @@ INCLUDEPATH += $$PWD/src
 INCLUDEPATH += $$PWD/src/DrawableItems
 SOURCES += src/main.cpp\
     src/DrawableItems/dgzgrid.cpp \
-    src/DrawableItems/dgzimage.cpp \
     src/datamanager.cpp \
     src/dgzpolyline.cpp \
     src/dgzscaler.cpp \
@@ -24,7 +23,6 @@ SOURCES += src/main.cpp\
 
 HEADERS  += \
     src/DrawableItems/dgzgrid.h \
-    src/DrawableItems/dgzimage.h \
     src/datamanager.h \
     src/dgzpolyline.h \
     src/dgzscaler.h \

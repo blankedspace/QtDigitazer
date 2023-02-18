@@ -2,7 +2,6 @@
 #define DATAMANAGER_H
 
 #include "dgzgrid.h"
-#include "dgzimage.h"
 
 class DataManager
 {

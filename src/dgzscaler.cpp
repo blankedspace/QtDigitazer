@@ -1,5 +1,8 @@
 #include "dgzscaler.h"
 
+
+DGZScaler* DGZScaler::instance = nullptr;
+
 DGZScaler::DGZScaler()
 {
 
@@ -29,13 +32,18 @@ QPointF DGZScaler::screen2File(QPointF pt)
 
 QPointF DGZScaler::file2Screen(QPointF pt)
 {
+    return file2Screen(_fsRect,pt);
+}
 
-    double xf1 = _fsRect.left();
-    double xf2 = _fsRect.right();
+QPointF DGZScaler::file2Screen(QRectF file,QPointF pt)
+{
+
+    double xf1 = file.left();
+    double xf2 = file.right();
     double xs1 = _sRect.left();
     double xs2 = _sRect.right();
-    double yf1 = _fsRect.bottom();
-    double yf2 = _fsRect.top();
+    double yf1 = file.bottom();
+    double yf2 = file.top();
     double ys1 = _sRect.bottom();
     double ys2 = _sRect.top();
     double xf = pt.x();
@@ -46,7 +54,6 @@ QPointF DGZScaler::file2Screen(QPointF pt)
     spt.setY(ys1+(yf-yf1)/(yf2-yf1)*(ys2-ys1));
     return spt;
 }
-
 QPointF DGZScaler::real2File(QPointF pt)
 {
 
